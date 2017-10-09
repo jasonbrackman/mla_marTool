@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MPosToolMainWindow</class>
+ <widget class="QMainWindow" name="MPosToolMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>280</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>280</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>280</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>280</width>
+    <height>375</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Position Tool</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="minimumSize">
+       <size>
+        <width>115</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="5" column="0">
+        <widget class="QCheckBox" name="rx_cB">
+         <property name="text">
+          <string>RX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QCheckBox" name="sx_cB">
+         <property name="text">
+          <string>SX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QCheckBox" name="sy_cB">
+         <property name="text">
+          <string>SY</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="translate_cB">
+         <property name="text">
+          <string>Translate</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="ty_cB">
+         <property name="text">
+          <string>TY</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="tx_cB">
+         <property name="text">
+          <string>TX</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="rz_cB">
+         <property name="text">
+          <string>RZ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="rotate_cB">
+         <property name="text">
+          <string>Rotate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="tz_cB">
+         <property name="text">
+          <string>TZ</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QCheckBox" name="sz_cB">
+         <property name="text">
+          <string>SZ</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QCheckBox" name="scale_cB">
+         <property name="text">
+          <string>Scale</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="ry_cB">
+         <property name="text">
+          <string>RY</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Position</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="minimumSize">
+           <size>
+            <width>115</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="ws_rB">
+               <property name="toolTip">
+                <string>Perform transformation in world space</string>
+               </property>
+               <property name="text">
+                <string>World space</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="os_rB">
+               <property name="toolTip">
+                <string>Perform transformation in local space</string>
+               </property>
+               <property name="text">
+                <string>Object space</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="mirror_cB">
+             <property name="toolTip">
+              <string>Mirror the selected values</string>
+             </property>
+             <property name="text">
+              <string>Mirror </string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Axis</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="mirror_x_rB">
+             <property name="toolTip">
+              <string>Mirror axis : X</string>
+             </property>
+             <property name="text">
+              <string>X</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QRadioButton" name="mirror_y_rB">
+             <property name="toolTip">
+              <string>Mirror axis : Y</string>
+             </property>
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QRadioButton" name="mirror_z_rB">
+             <property name="toolTip">
+              <string>Mirror axis : Z</string>
+             </property>
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="minimumSize">
+           <size>
+            <width>115</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QRadioButton" name="mirror_behavior_rB">
+               <property name="toolTip">
+                <string>Perform transformation in local space</string>
+               </property>
+               <property name="text">
+                <string>Behavior</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="mirror_scale_rB">
+               <property name="toolTip">
+                <string>Perform transformation in world space</string>
+               </property>
+               <property name="text">
+                <string>Scale</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="move_pB">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>select one object : move based on its own coordinates. Select 2 objects : first one : source, second one : target ; move the second one on the base of the coordinates of the first one</string>
+          </property>
+          <property name="text">
+           <string>Move</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="move_even_pB">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>multi selection : 1st object : first pair source, 2nd object : first pair target ; 3rd object : second pair source, 4th object : second pair target ; etc.</string>
+          </property>
+          <property name="text">
+           <string>Move by pair</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Constrain</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="maintain_offset_cB">
+          <property name="text">
+           <string>Maintain offset</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="constrain_pB">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Constrain</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="title">
+           <string>Up vector</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="up_vectorX_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="up_vectorY_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="up_vectorZ_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="title">
+           <string>Aim vector</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="aim_vectorX_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+             <property name="value">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="aim_vectorY_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="aim_vectorZ_sB">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <number>-1</number>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QPushButton" name="constrain_by_pair_pB">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Constrain by pair</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QRadioButton" name="point_ct_rB">
+            <property name="text">
+             <string>pointConstraint</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="orient_ct_rB">
+            <property name="text">
+             <string>orientConstraint</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="aim_ct_rB">
+            <property name="text">
+             <string>aimConstraint</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="scale_ct_rB">
+            <property name="text">
+             <string>scaleConstraint</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="parent_ct_rB">
+            <property name="text">
+             <string>parentConstraint</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="mirror_ct_rB">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Mirror selected</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ws_rB</tabstop>
+  <tabstop>os_rB</tabstop>
+  <tabstop>mirror_cB</tabstop>
+  <tabstop>mirror_x_rB</tabstop>
+  <tabstop>mirror_y_rB</tabstop>
+  <tabstop>mirror_z_rB</tabstop>
+  <tabstop>move_pB</tabstop>
+  <tabstop>move_even_pB</tabstop>
+  <tabstop>translate_cB</tabstop>
+  <tabstop>tx_cB</tabstop>
+  <tabstop>ty_cB</tabstop>
+  <tabstop>tz_cB</tabstop>
+  <tabstop>rotate_cB</tabstop>
+  <tabstop>rx_cB</tabstop>
+  <tabstop>ry_cB</tabstop>
+  <tabstop>rz_cB</tabstop>
+  <tabstop>scale_cB</tabstop>
+  <tabstop>sx_cB</tabstop>
+  <tabstop>sy_cB</tabstop>
+  <tabstop>sz_cB</tabstop>
+  <tabstop>maintain_offset_cB</tabstop>
+  <tabstop>aim_vectorX_sB</tabstop>
+  <tabstop>aim_vectorY_sB</tabstop>
+  <tabstop>aim_vectorZ_sB</tabstop>
+  <tabstop>up_vectorX_sB</tabstop>
+  <tabstop>up_vectorY_sB</tabstop>
+  <tabstop>up_vectorZ_sB</tabstop>
+  <tabstop>point_ct_rB</tabstop>
+  <tabstop>orient_ct_rB</tabstop>
+  <tabstop>aim_ct_rB</tabstop>
+  <tabstop>scale_ct_rB</tabstop>
+  <tabstop>parent_ct_rB</tabstop>
+  <tabstop>mirror_ct_rB</tabstop>
+  <tabstop>constrain_pB</tabstop>
+  <tabstop>constrain_by_pair_pB</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>aim_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox_5</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>88</x>
+     <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aim_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>102</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>translate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tx_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>60</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>translate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ty_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>translate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tz_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>point_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>translate_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>183</x>
+     <y>30</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>parent_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>translate_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>121</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>172</x>
+     <y>31</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>orient_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rotate_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rx_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>253</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rz_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>148</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>260</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotate_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ry_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>189</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>263</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scale_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sx_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>211</x>
+     <y>303</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scale_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sy_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>277</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>263</x>
+     <y>337</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scale_cB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sz_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>272</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>242</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scale_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>scale_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>261</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>parent_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rotate_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>36</x>
+     <y>286</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>209</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aim_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rotate_cB</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>65</x>
+     <y>238</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mirror_ct_rB</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>constrain_by_pair_pB</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>49</x>
+     <y>368</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
