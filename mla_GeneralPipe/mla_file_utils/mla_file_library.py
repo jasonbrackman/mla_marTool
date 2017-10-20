@@ -81,10 +81,8 @@ class FileLibrary(dict):
         files = os.listdir(self.directory)
         print files
 
-        specific_files = list()
-
-        for f_type in self.file_types:
-            specific_files += [f for f in files if f.endswith(f_type)]
+        specific_files = [[f for f in files if f.endswith(f_type)]
+                          for f_type in self.file_types]
 
         for f in specific_files:
             name, ext = os.path.splitext(f)
@@ -95,30 +93,31 @@ class FileLibrary(dict):
             if info_file in files:
                 info_file = os.path.join(self.directory, info_file)
                 info = file_ut.FileSystem.load_from_json(info_file)
+                self[name] = info
+                return
             # Else, create it
-            else:
-                info = dict()
+            info = {}
 
-                screenshot = '%s_screenshot.jpg' % name
-                if screenshot in files:
-                    info['screenshot'] = os.path.join(self.directory,
-                                                      '%s_screenshot.jpg'
-                                                      % name)
+            screenshot = '%s_screenshot.jpg' % name
+            if screenshot in files:
+                info['screenshot'] = os.path.join(self.directory,
+                                                  '%s_screenshot.jpg'
+                                                  % name)
 
-                # Date and formatting
-                creation_date = time.localtime(os.path.getctime(path))
-                creation_date = format_utils.convert_to_readable_date(creation_date)
+            # Date and formatting
+            creation_date = time.localtime(os.path.getctime(path))
+            creation_date = format_utils.convert_to_readable_date(creation_date)
 
-                modification_date = time.localtime(os.path.getmtime(path))
-                modification_date = format_utils.convert_to_readable_date(modification_date)
+            modification_date = time.localtime(os.path.getmtime(path))
+            modification_date = format_utils.convert_to_readable_date(modification_date)
 
-                # Create info dict
-                info['name'] = name
-                info['path'] = path
-                info['file type'] = '.%s' % path.split('.')[-1]
-                info['creation'] = creation_date
-                info['modification'] = modification_date
-                info['size'] = os.path.getsize(path)
+            # Create info dict
+            info['name'] = name
+            info['path'] = path
+            info['file type'] = '.%s' % path.split('.')[-1]
+            info['creation'] = creation_date
+            info['modification'] = modification_date
+            info['size'] = os.path.getsize(path)
 
             self[name] = info
 
