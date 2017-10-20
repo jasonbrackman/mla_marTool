@@ -302,73 +302,70 @@ class PathConstructorUI(QtWidgets.QGroupBox):
 
         if self.path.startswith(default_project_path):
             self.path = self.path.split(default_project_path)[1]
-
             self.select_from_path()
+            return
+
+        # If yes, split it and defines the different part
+        path_split = self.path.split('/')
+        if len(path_split) >= 1:
+            project = path_split[0]
         else:
-            # If yes, split it and defines the different part
-            path_split = self.path.split('/')
-            if len(path_split) >= 1:
-                project = path_split[0]
-            else:
-                project = ''
+            project = ''
 
-            if len(path_split) >= 2:
-                scenes_sound = path_split[1]
-            else:
-                scenes_sound = ''
+        if len(path_split) >= 2:
+            scenes_sound = path_split[1]
+        else:
+            scenes_sound = ''
 
-            if len(path_split) >= 3:
-                asset_anim = path_split[2]
-            else:
-                asset_anim = ''
+        if len(path_split) >= 3:
+            asset_anim = path_split[2]
+        else:
+            asset_anim = ''
 
-            if len(path_split) >= 4:
-                asset_type_episode = path_split[3]
-            else:
-                asset_type_episode = ''
+        if len(path_split) >= 4:
+            asset_type_episode = path_split[3]
+        else:
+            asset_type_episode = ''
 
-            if len(path_split) >= 5:
-                asset_shot = path_split[4]
-            else:
-                asset_shot = ''
+        if len(path_split) >= 5:
+            asset_shot = path_split[4]
+        else:
+            asset_shot = ''
 
-            if len(path_split) >= 6:
-                task = path_split[5]
-            else:
-                task = ''
+        if len(path_split) >= 6:
+            task = path_split[5]
+        else:
+            task = ''
 
-            # Try to select project, asset/anim, and so on
-            if project not in self.hierarchy:
-                logging.warning('%s not found' % project)
-                return
-            mla_UI_utils.select_combobox_index_from_text(
-                self.project, project)
-            if scenes_sound in self.hierarchy[project]:
-                mla_UI_utils.select_combobox_index_from_text(self.scenes_sound, scenes_sound)
+        # Try to select project, asset/anim, and so on
+        if project not in self.hierarchy:
+            logging.warning('%s not found' % project)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.project, project)
+        if scenes_sound not in self.hierarchy[project]:
+            logging.warning('%s not found' % scenes_sound)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.scenes_sound, scenes_sound)
 
-                if asset_anim in self.hierarchy[project][scenes_sound]:
-                    mla_UI_utils.select_combobox_index_from_text(self.asset_anim, asset_anim)
+        if asset_anim not in self.hierarchy[project][scenes_sound]:
+            logging.warning('%s not found' % asset_anim)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.asset_anim, asset_anim)
 
-                    if asset_type_episode in self.hierarchy[project][scenes_sound][asset_anim]:
-                        mla_UI_utils.select_combobox_index_from_text(self.asset_type, asset_type_episode)
+        if asset_type_episode not in self.hierarchy[project][scenes_sound][asset_anim]:
+            logging.warning('%s not found' % asset_type_episode)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.asset_type, asset_type_episode)
 
-                        if asset_shot in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode]:
-                            mla_UI_utils.select_combobox_index_from_text(self.asset, asset_shot)
+        if asset_shot not in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode]:
+            logging.warning('%s not found' % asset_shot)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.asset, asset_shot)
 
-                            if task in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode][asset_shot]:
-                                mla_UI_utils.select_combobox_index_from_text(self.task, task)
-
-                            else:
-                                logging.warning('%s not found' % task)
-                        else:
-                            logging.warning('%s not found' % asset_shot)
-                    else:
-                        logging.warning('%s not found' % asset_type_episode)
-                else:
-                    logging.warning('%s not found' % asset_anim)
-            else:
-                logging.warning('%s not found' % scenes_sound)
-
+        if task not in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode][asset_shot]:
+            logging.warning('%s not found' % task)
+            return
+        mla_UI_utils.select_combobox_index_from_text(self.task, task)
 
     def update_path(self):
         self.path = self.path_field.text().replace('\\', '/')
