@@ -28,7 +28,7 @@ class PathConstructorUI(QtWidgets.QGroupBox):
         self.hierarchy = hierarchy_utils.list_hierarchy()
 
         # Populating menus
-        self.project_list = [project for project in self.hierarchy.keys()]
+        self.project_list = self.hierarchy.keys()
         self.project_list.sort()
 
         mla_UI_utils.update_combobox(self.project, self.project_list)
@@ -36,22 +36,13 @@ class PathConstructorUI(QtWidgets.QGroupBox):
         self.update_scenes_sound_combobox()
 
         # Connecting ui selections
-        self.project.currentIndexChanged.connect(
-            self.update_asset_anim_combobox)
+        self.project.currentIndexChanged.connect(lambda: self.update_combobox(1))
+        self.scenes_sound.currentIndexChanged.connect(lambda: self.update_combobox(2))
+        self.asset_anim.currentIndexChanged.connect(lambda: self.update_combobox(3))
+        self.asset_type.currentIndexChanged.connect(lambda: self.update_combobox(4))
+        self.asset.currentIndexChanged.connect(lambda: self.update_combobox(5))
 
-        self.scenes_sound.currentIndexChanged.connect(
-            self.update_scenes_sound_combobox)
-
-        self.asset_anim.currentIndexChanged.connect(
-            self.update_asset_type_combobox)
-
-        self.asset_type.currentIndexChanged.connect(
-            self.update_asset_shot_combobox)
-
-        self.asset.currentIndexChanged.connect(
-            self.update_task_combobox)
-
-        self.set_path_field.pressed.connect(self.update_path)
+        self.set_path_field.pressed.connect(self.clean_path)
         self.set_path_field.released.connect(self.select_from_path)
 
         # Select currently open scene if possible
@@ -140,6 +131,13 @@ class PathConstructorUI(QtWidgets.QGroupBox):
         self.task = QtWidgets.QComboBox()
         task_layout.addWidget(self.task)
 
+        self.comboboxes_list = [self.project,
+                                self.scenes_sound,
+                                self.asset_anim,
+                                self.asset_type,
+                                self.asset,
+                                self.task]
+
         # Path search field
         path_field_main_widget = QtWidgets.QWidget()
         path_field_main_layout = QtWidgets.QHBoxLayout(path_field_main_widget)
@@ -169,205 +167,109 @@ class PathConstructorUI(QtWidgets.QGroupBox):
         :return: list of all the UI datas
         :rtype: dict
         """
-        # Project
-        project = self.project.currentText()
-        # Scene / sound
-        scenes_sound = self.scenes_sound.currentText()
-
-        # Asset/Anim
-        asset_anim = self.asset_anim.currentText()
-        # Asset type
-        asset_type_episode = self.asset_type.currentText()
-        # Asset
-        asset_shot = self.asset.currentText()
-        # Task
-        task = self.task.currentText()
+        [project,
+         scenes_sound,
+         asset_anim,
+         asset_type_episode,
+         asset_shot,
+         task] = map(lambda item: item.currentText(), self.comboboxes_list)
 
         logging.debug('===== END OF GET DATA =====')
 
-        return {'project': project,
-                'scenes_sound': scenes_sound,
-                'asset_anim': asset_anim,
-                'asset_type_episode': asset_type_episode,
-                'asset_shot': asset_shot,
-                'task': task}
+        return [self.hierarchy[project],
+                self.hierarchy[project][scenes_sound],
+                self.hierarchy[project][scenes_sound][asset_anim],
+                self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode],
+                self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode][asset_shot]]
 
-    def update_scenes_sound_combobox(self):
+    def update_combobox(self, combobox_number):
         """
-        Update asset_type/episode comboBox according to the project, asset/anim
+        Update a combobox with the list of directories found in the hierarchy and
+        based on the selected neighbors.
+        :param combobox_number:
+        :return:
         """
-        # Get datas from ui
         self.data = self.get_pc_ui_datas()
-        # Build list
-        scenes_sound_list = [asset_type for asset_type
-                             in self.hierarchy[self.data['project']]]
+        combobox_to_update = self.comboboxes_list[combobox_number]
+        block = True
+        combobox_list = self.data[combobox_number - 1]
+        if combobox_number == 3:
+            if self.data[2] == 'ANIMATION':
+                self.asset_type_label.setText('Episode')
+                self.asset_label.setText('Shot')
+            else:
+                self.asset_type_label.setText('Type')
+                self.asset_label.setText('Asset')
+        elif combobox_number == 5:
+            block = False
+        mla_UI_utils.update_combobox(combobox_to_update, combobox_list, block=block)
 
-        # Update comboBox
-        mla_UI_utils.update_combobox(self.scenes_sound, scenes_sound_list)
-
-        # Init update asset/shot combobox
-        self.update_asset_anim_combobox()
-        logging.debug('===== END OF scenes_sound comboBox UPDATE =====')
-
-    def update_asset_anim_combobox(self):
-        """
-        Update asset/anim comboBox according to the project
-        """
-        # Get datas from ui
-        self.data = self.get_pc_ui_datas()
-        # Set project directory
-        # path_utils.set_current_project_directory(self.data['project'])
-
-        # Build list
-        asset_anim_list = [directory for directory
-                           in self.hierarchy[self.data['project']]
-                           [self.data['scenes_sound']]]
-
-        # Update comboBox
-        mla_UI_utils.update_combobox(self.asset_anim, asset_anim_list)
-
-        # Init update type/episode combobox
-        self.update_asset_type_combobox()
-        logging.debug('===== END OF asset_anim comboBox UPDATE =====')
-
-    def update_asset_type_combobox(self):
-        """
-        Update asset_type/episode comboBox according to the project, asset/anim
-        """
-        # Get datas from ui
-        self.data = self.get_pc_ui_datas()
-        # Build list
-        types_list = [asset_type for asset_type
-                      in self.hierarchy[self.data['project']]
-                      [self.data['scenes_sound']]
-                      [self.data['asset_anim']]]
-
-        # Change labels according to selection
-        if self.data['asset_anim'] == 'ANIMATION':
-            self.asset_type_label.setText('Episode')
-            self.asset_label.setText('Shot')
-        else:
-            self.asset_type_label.setText('Type')
-            self.asset_label.setText('Asset')
-
-        # Update comboBox
-        mla_UI_utils.update_combobox(self.asset_type, types_list)
-
-        # Init update asset/shot combobox
-        self.update_asset_shot_combobox()
-        # print '===== END OF asset_type comboBox UPDATE ====='
-
-    def update_asset_shot_combobox(self):
-        """
-        Update asset/shot comboBox according to the project, asset/anim, 
-        asset_type/episode
-        """
-        # Get datas from ui
-        self.data = self.get_pc_ui_datas()
-        # Build list
-        assets_list = [asset for asset
-                       in self.hierarchy[self.data['project']]
-                       [self.data['scenes_sound']]
-                       [self.data['asset_anim']]
-                       [self.data['asset_type_episode']]]
-
-        # Update comboBox
-        mla_UI_utils.update_combobox(self.asset, assets_list)
-
-        # Init update task combobox
-        self.update_task_combobox()
-
-    def update_task_combobox(self):
-        """
-        Update task comboBox according to the project, asset/anim, asset_type/episode, asset/shot
-        """
-        # Get datas from ui
-        self.data = self.get_pc_ui_datas()
-        # Build list
-        task_list = [asset for asset in
-                     self.hierarchy[self.data['project']]
-                     [self.data['scenes_sound']]
-                     [self.data['asset_anim']]
-                     [self.data['asset_type_episode']]
-                     [self.data['asset_shot']]]
-
-        # Update comboBox
-        mla_UI_utils.update_combobox(self.task, task_list, block=False)
+        if combobox_number < 5:
+            self.update_combobox(combobox_number + 1)
 
     def select_from_path(self):
         """
-        Set the different comboBox according to the open file 
+        Set the different comboBoxes according to the opened file
         """
         default_project_path = '%s/' % path_utils.MAYA_PROJECT_PATH
 
         if self.path.startswith(default_project_path):
             self.path = self.path.split(default_project_path)[1]
-
             self.select_from_path()
-        else:
-            # If yes, split it and defines the different part
-            path_split = self.path.split('/')
-            if len(path_split) >= 1:
-                project = path_split[0]
-            else:
-                project = ''
+            return
 
-            if len(path_split) >= 2:
-                scenes_sound = path_split[1]
-            else:
-                scenes_sound = ''
+        path_split = self.path.split('/')
+        combobox_content = [self.parse_file_path(path_split, i+1) for i in range(4)]
 
-            if len(path_split) >= 3:
-                asset_anim = path_split[2]
-            else:
-                asset_anim = ''
+        [project,
+         scenes_sound,
+         asset_anim,
+         asset_type_episode,
+         asset_shot] = combobox_content
 
-            if len(path_split) >= 4:
-                asset_type_episode = path_split[3]
-            else:
-                asset_type_episode = ''
+        dir_list = [self.hierarchy,
+                    self.hierarchy[project],
+                    self.hierarchy[project][scenes_sound],
+                    self.hierarchy[project][scenes_sound][asset_anim],
+                    self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode],
+                    self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode][asset_shot]]
 
-            if len(path_split) >= 5:
-                asset_shot = path_split[4]
-            else:
-                asset_shot = ''
+        # Try to select project, asset/anim, and so on
+        for i, combobox in enumerate(self.comboboxes_list):
+            if not self.check_in_dict_and_log(combobox_content[i], self.hierarchy):
+                return
+            mla_UI_utils.select_combobox_index_from_text(combobox, dir_list[i])
 
-            if len(path_split) >= 6:
-                task = path_split[5]
-            else:
-                task = ''
-
-            # Try to select project, asset/anim, and so on
-            if project in self.hierarchy:
-                mla_UI_utils.select_combobox_index_from_text(
-                    self.project, project)
-                if scenes_sound in self.hierarchy[project]:
-                    mla_UI_utils.select_combobox_index_from_text(self.scenes_sound, scenes_sound)
-
-                    if asset_anim in self.hierarchy[project][scenes_sound]:
-                        mla_UI_utils.select_combobox_index_from_text(self.asset_anim, asset_anim)
-
-                        if asset_type_episode in self.hierarchy[project][scenes_sound][asset_anim]:
-                            mla_UI_utils.select_combobox_index_from_text(self.asset_type, asset_type_episode)
-
-                            if asset_shot in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode]:
-                                mla_UI_utils.select_combobox_index_from_text(self.asset, asset_shot)
-
-                                if task in self.hierarchy[project][scenes_sound][asset_anim][asset_type_episode][asset_shot]:
-                                    mla_UI_utils.select_combobox_index_from_text(self.task, task)
-
-                                else:
-                                    logging.warning('%s not found' % task)
-                            else:
-                                logging.warning('%s not found' % asset_shot)
-                        else:
-                            logging.warning('%s not found' % asset_type_episode)
-                    else:
-                        logging.warning('%s not found' % asset_anim)
-                else:
-                    logging.warning('%s not found' % scenes_sound)
-            else:
-                logging.warning('%s not found' % project)
-
-    def update_path(self):
+    def clean_path(self):
+        """
+        Update the path so that it is usable in Maya (Maya does not like backslashes)
+        :return:
+        """
         self.path = self.path_field.text().replace('\\', '/')
+
+    @staticmethod
+    def check_in_dict_and_log(item, dictionary):
+        """
+        Checks if a string is the key of a dictionary. If it isn't, prints a warning
+        :param item:
+        :param dictionary:
+        :return:
+        """
+        if item not in dictionary:
+            logging.warning('%s not found' % item)
+            return False
+        return True
+
+    @staticmethod
+    def parse_file_path(path_split, k):
+        """
+        :param path_split:
+        :param k:
+        :return:
+        """
+        if len(path_split) >= k:
+            sub_directory = path_split[k-1]
+        else:
+            sub_directory = ''
+        return sub_directory
+
