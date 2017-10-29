@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_GeneralPipe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_GeneralPipe/mla_general_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_GeneralPipe/mla_UI_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_GeneralPipe/mla_file_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MaxPipe/mla_rig_modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MaxPipe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MaxPipe/mla_rig_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MaxPipe/mla_UI_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_file_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_PosTool" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_RigBuilder" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_ScenesManager" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_archive" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BakeDynToFk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_blendshape_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BlendShapeManager_12" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BlendShapeManager_13" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_CurveManager" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_general_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_file_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_general_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_PosTool" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rendering_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rig_modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rig_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_skeleton_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_SymMesh" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

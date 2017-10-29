@@ -28,7 +28,7 @@ class AssetManagerUI(dockable, QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(AssetManagerUI, self).__init__(parent=parent)
 
-        self.setWindowTitle('Asset Manager UI')
+        self.setWindowTitle('Scenes Manager UI')
         self.setMinimumSize(825, 550)
         # Path constructor
         self.path_constructor = pcui.PathConstructorUI()

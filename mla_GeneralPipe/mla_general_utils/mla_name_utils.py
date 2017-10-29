@@ -37,37 +37,48 @@ def rename(obj_list=[], prefix=None, main_name=None, suffix=None, search=None,
 
     :return:
     """
-    inc_nbr = 0
+    gu.open_undo_chunk()
+
+    inc_nbr = 1
 
     obj_new_names = list()
 
     for obj in obj_list:
         if not main_name:
-            main_name = obj
+            main_part = obj
+        else:
+            main_part = main_name
 
-        full_name = '%s%s%s' % (prefix, main_name, suffix)
+        full_name = '%s%s%s' % (prefix, main_part, suffix)
 
-        digit_pattern = re.findall('(#+)', full_name)[0]
-        digit_number = len(digit_pattern)
+        digit_pattern = re.findall('(#+)', full_name)
+        if digit_pattern:
+            digit_pattern = digit_pattern[0]
+            digit_number = len(digit_pattern)
 
-        inc_nbr += 1
-        increm = create_increment(inc_nbr, digit_number)
-
-        name = full_name.replace(digit_pattern, increm)
-
-        while gu.check_obj_exists(name):
-            inc_nbr += 1
             increm = create_increment(inc_nbr, digit_number)
+
             name = full_name.replace(digit_pattern, increm)
 
-        full_name.replace(digit_pattern, increm)
+            while gu.check_obj_exists(name):
+                inc_nbr += 1
+                increm = create_increment(inc_nbr, digit_number)
+                name = full_name.replace(digit_pattern, increm)
+
+            new_name = full_name.replace(digit_pattern, increm)
+        else:
+            new_name = full_name
 
         if search:
             if not replace:
                 replace = ''
-            full_name.replace(search, replace)
+            new_name = new_name.replace(search, replace)
 
-        obj_new_names.append(full_name)
+        obj_new_names.append(new_name)
+
+        gu.rename(obj, new_name)
+
+    gu.close_undo_chunk()
 
     return obj_new_names
 
