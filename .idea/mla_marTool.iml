@@ -32,8 +32,10 @@
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rig_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_skeleton_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_SymMesh" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_Renamer" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_CurveManager" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 2.7.11 (C:\Program Files\Autodesk\Maya2017\bin\mayapy.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

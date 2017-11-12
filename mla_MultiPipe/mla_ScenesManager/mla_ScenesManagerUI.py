@@ -80,12 +80,18 @@ class AssetManagerUI(dockable, QtWidgets.QDialog):
         layout.addWidget(open_button_widget)
 
         self.open_button = QtWidgets.QPushButton('Open')
+        self.open_button.setMinimumHeight(35)
+        self.open_button.setStyleSheet('background-color: #00c32b; color: white')
         open_button_layout.addWidget(self.open_button)
 
         self.import_button = QtWidgets.QPushButton('Import')
+        self.import_button.setMinimumHeight(35)
+        self.import_button.setStyleSheet('background-color: #00901f; color: white')
         open_button_layout.addWidget(self.import_button)
 
         self.reference_button = QtWidgets.QPushButton('Reference')
+        self.reference_button.setMinimumHeight(35)
+        self.reference_button.setStyleSheet('background-color: #005a14; color: white')
         open_button_layout.addWidget(self.reference_button)
 
         sep = QtWidgets.QFrame()
@@ -93,14 +99,17 @@ class AssetManagerUI(dockable, QtWidgets.QDialog):
         open_button_layout.addWidget(sep)
 
         self.small = QtWidgets.QPushButton('Small')
+        self.small.setMinimumHeight(35)
         self.small.setFixedWidth(50)
         open_button_layout.addWidget(self.small)
 
         self.medium = QtWidgets.QPushButton('Medium')
+        self.medium.setMinimumHeight(35)
         self.medium.setFixedWidth(50)
         open_button_layout.addWidget(self.medium)
 
         self.large = QtWidgets.QPushButton('Large')
+        self.large.setMinimumHeight(35)
         self.large.setFixedWidth(50)
         open_button_layout.addWidget(self.large)
 
@@ -127,12 +136,18 @@ class AssetManagerUI(dockable, QtWidgets.QDialog):
         layout.addWidget(button_widget)
 
         self.save_button = QtWidgets.QPushButton('Save')
+        self.save_button.setMinimumHeight(35)
+        self.save_button.setStyleSheet('background-color: #6161b0; color: white')
         button_layout.addWidget(self.save_button)
 
         self.save_wip_button = QtWidgets.QPushButton('Save wip')
+        self.save_wip_button.setMinimumHeight(35)
+        self.save_wip_button.setStyleSheet('background-color: #373790; color: white')
         button_layout.addWidget(self.save_wip_button)
 
         self.save_publish_button = QtWidgets.QPushButton('Save publish')
+        self.save_publish_button.setMinimumHeight(35)
+        self.save_publish_button.setStyleSheet('background-color: #000060; color: white')
         button_layout.addWidget(self.save_publish_button)
 
         logging.info('===== END OF BUILD UI =====')

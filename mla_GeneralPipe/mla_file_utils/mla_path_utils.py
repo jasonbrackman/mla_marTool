@@ -90,30 +90,6 @@ def build_path(project, scenes_sound='', asset_anim='', asset_type='', asset='',
     return return_path
 
 
-# TODO : remove this
-def build_increment(number, digits=3):
-    """
-    Increment the given number and return it as a 2 decimal string (ie : 01, 02, etc.)
-    :param number: number you want to increment
-    :type number: str
-
-    :param digits: number of digits the string should contain in total
-    :type digits: int
-
-    :return: incremented number
-    :rtype: str
-    """
-    try:
-        increment = int(number)
-        increment += 1
-        increment = str(increment).zfill(digits)
-    except ValueError:
-        increment = None
-        logging.error('"%s" is not a number' % number)
-
-    return increment
-
-
 def create_subdir_list(given_path):
     """
     create list of the subdirectories in the given directory
@@ -135,7 +111,8 @@ def create_subdir_list(given_path):
     return subdir_list
 
 
-def build_files_list(given_path):
+def build_files_list(given_path, file_types=['.ma', '.mb', '.fbx'],
+                     sort_by='date', return_ext=True):
     """
     Create a list of all the files in the given directory
     
@@ -148,15 +125,24 @@ def build_files_list(given_path):
     os.chdir(given_path)
     files = [dir_file for dir_file in os.listdir(given_path)
              if os.path.isfile(os.path.join(given_path, dir_file))]
-    maya_files = [maya_file for maya_file in files
-                  if '.ma' in maya_file
-                  or '.mb' in maya_file
-                  or '.fbx' in maya_file]
-    if not maya_files:
-        maya_files = ['No file in this directory']
+
+    filtered_files = list()
+    for f in files:
+        for file_type in file_types:
+            if file_type in f:
+                if return_ext:
+                    file_name = f
+                else:
+                    file_name = f.replace(file_type, '')
+                filtered_files.append(file_name)
+
+    if not filtered_files:
+        filtered_files = ['No file in this directory']
+
+    if sort_by == 'date':
+        filtered_files.sort(key=lambda x: os.path.getmtime(x))
+        filtered_files.reverse()
     else:
-        maya_files.sort(key=lambda x: os.path.getmtime(x))
-        maya_files.reverse()
+        filtered_files.sort()
 
-    return maya_files
-
+    return filtered_files

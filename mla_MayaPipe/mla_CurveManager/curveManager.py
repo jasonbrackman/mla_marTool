@@ -6,8 +6,8 @@ from PySide.QtCore import *
 from PySide.QtGui import *
 
 import curveManager_ui
-import ml_file as ml_file
-import orig
+import mla_GeneralPipe.mla_file_utils.mla_file_utils as fu
+import mla_MayaPipe.mla_rig_utils.orig as orig
 
 reload(curveManager_ui)
 
@@ -138,8 +138,8 @@ class CurveManager(QDialog, curveManager_ui.Ui_CMMainWindow):
 
         crv_type = data['new_shape_name']
 
-        ml_file.FileSystem.delete_if_exists('%s/%s.json'
-                                            % (dicts_path, crv_type))
+        fu.FileSystem.delete_if_exists('%s/%s.json'
+                                       % (dicts_path, crv_type))
 
         self.crv_dicts = self.build_files_list(dicts_path)
         self.update_combobox(self.curve_comB, self.crv_dicts)
@@ -165,10 +165,10 @@ class CurveManager(QDialog, curveManager_ui.Ui_CMMainWindow):
         else:
             crv_type = data['new_shape_name']
 
-        crv_dict = self. get_crv_info(crv_name)
+        crv_dict = self.get_crv_info(crv_name)
 
-        ml_file.FileSystem.save_to_json(crv_dict, '%s/%s.json'
-                                        % (dicts_path, crv_type))
+        fu.FileSystem.save_to_json(crv_dict, '%s/%s.json'
+                                   % (dicts_path, crv_type))
 
         self.crv_dicts = self.build_files_list(dicts_path)
         self.update_combobox(self.curve_comB, self.crv_dicts)
@@ -314,8 +314,8 @@ class CurveManager(QDialog, curveManager_ui.Ui_CMMainWindow):
         :return: curve name
         :rtype: str
         """
-        crv_dict = ml_file.FileSystem.load_from_json('%s/%s.json'
-                                                     % (dicts_path, crv_type))
+        crv_dict = fu.FileSystem.load_from_json('%s/%s.json'
+                                                % (dicts_path, crv_type))
         degree = crv_dict['degree']
         points = crv_dict['points']
         knots = crv_dict['knots']

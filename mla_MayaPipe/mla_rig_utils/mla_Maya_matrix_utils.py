@@ -1,41 +1,9 @@
 import maya.cmds as mc
 import mla_GeneralPipe.mla_general_utils.mla_name_utils as nu
+import orig as orig
 
 reload(nu)
-
-
-def move_from_ui(data):
-    """
-    Use move function using ui's data
-    :return:
-    """
-    selection = mc.ls(sl=True)
-
-    move(selection,
-         data['translate'],
-         data['rotate'],
-         data['scale'],
-         data['world_space'],
-         data['mirror'],
-         data['mirror_axis'],
-         data['behavior'])
-
-
-def move_even_from_ui(data):
-    """
-    Use move_transform function using ui's data
-    :return:
-    """
-    selection = mc.ls(sl=True)
-
-    move_even(selection,
-              data['translate'],
-              data['rotate'],
-              data['scale'],
-              data['world_space'],
-              data['mirror'],
-              data['mirror_axis'],
-              data['behavior'])
+reload(orig)
 
 
 def move_even(obj_list=(), translate=('x', 'y', 'z'),
@@ -340,55 +308,6 @@ def move(source_target=(), translate=('x', 'y', 'z'),
         mc.undoInfo(closeChunk=True)
 
 
-def constrain_from_ui(data):
-    """
-    Create a constraint using ui's data
-    :return:
-    """
-
-    selection = mc.ls(sl=True)
-
-    if data['constraint_type'] == 'Mirror selected':
-        targets = selection
-        source = ''
-    elif len(selection) > 1:
-        targets = selection[:-1]
-        source = selection[-1]
-    else:
-        print 'You need to select at least 2 objects to constrain',
-        return
-
-    constrain(constraint_type=data['constraint_type'],
-              targets=targets,
-              source=source,
-              aim_vector=data['aim_vector'],
-              up_vector=data['up_vector'],
-              maintain_offset=data['maintain_offset'],
-              skip=(data['skip_translation'],
-                    data['skip_rotation'],
-                    data['skip_scale']))
-
-
-def constrain_even_from_ui(data):
-    """
-    Call constrain function by even using ui's data
-    :return:
-    """
-    selection = mc.ls(sl=True)
-
-    for i, obj in enumerate(selection):
-        if i % 2 == 0:
-            constrain(constraint_type=data['constraint_type'],
-                      targets=[selection[i]],
-                      source=selection[i + 1],
-                      aim_vector=data['aim_vector'],
-                      up_vector=data['up_vector'],
-                      maintain_offset=data['maintain_offset'],
-                      skip=(data['skip_translation'],
-                            data['skip_rotation'],
-                            data['skip_scale']))
-
-
 def constrain(constraint_type='Parent constraint', targets='', source='',
               aim_vector=(1, 0, 0), up_vector=(0, 1, 0),
               maintain_offset=True, skip=((), (), ()), ct_name=''):
@@ -598,3 +517,50 @@ def mirror_constraint(constraints=()):
                       maintain_offset=maintain_offset,
                       skip=(skip_trans, skip_rot, skip_scale),
                       ct_name=ct_name)
+
+
+def orient_mirror_shape(shape, axis='x', mirror=(False, False, False)):
+    """
+    Rotate and orient a mesh, curve, nurbs, etc.
+    :param shape: Name of the shape to rotate and mirror (mesh, curve, etc)
+    :type shape: str
+
+    :param axis: Axis to orient the shape to. Default x (no rotation)
+    :type axis: str
+
+    :param mirror: Axis to mirror the shape along. Default (0, 0, 0) (no mirror)
+    :type mirror: tuple / list
+
+    :return:
+    """
+    parent = mc.listRelatives(shape, p=True)
+
+    # Transform shape
+    shape_orig = orig.orig([shape])
+    if axis == 'x':
+        pass
+    elif axis == 'y':
+        mc.setAttr('%s.rz' % shape, 90)
+    else:
+        mc.setAttr('%s.ry' % shape, 90)
+    mc.makeIdentity(shape, r=True, a=True)
+
+    mirr_value = list()
+    for each_axis in mirror:
+        if not each_axis:
+            mirr_value.append(1)
+        else:
+            mirr_value.append(-1)
+
+    mc.setAttr('%s.scale' % shape, mirr_value[0], mirr_value[1], mirr_value[2],
+               type="double3")
+    mc.makeIdentity(shape, s=True, a=True)
+
+    # Clean hierarchy
+    if parent:
+        mc.parent(shape, parent)
+    else:
+        mc.parent(shape, w=True)
+    mc.delete(shape_orig)
+
+    return shape

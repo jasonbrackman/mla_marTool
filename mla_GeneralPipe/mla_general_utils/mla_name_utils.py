@@ -1,4 +1,3 @@
-import maya.cmds as mc
 import mla_MultiPipe.mla_file_utils.mla_Multi_import_utils as Miu
 import re
 
@@ -49,30 +48,7 @@ def rename(obj_list=[], prefix=None, main_name=None, suffix=None, search=None,
         else:
             main_part = main_name
 
-        full_name = '%s%s%s' % (prefix, main_part, suffix)
-
-        digit_pattern = re.findall('(#+)', full_name)
-        if digit_pattern:
-            digit_pattern = digit_pattern[0]
-            digit_number = len(digit_pattern)
-
-            increm = create_increment(inc_nbr, digit_number)
-
-            name = full_name.replace(digit_pattern, increm)
-
-            while gu.check_obj_exists(name):
-                inc_nbr += 1
-                increm = create_increment(inc_nbr, digit_number)
-                name = full_name.replace(digit_pattern, increm)
-
-            new_name = full_name.replace(digit_pattern, increm)
-        else:
-            new_name = full_name
-
-        if search:
-            if not replace:
-                replace = ''
-            new_name = new_name.replace(search, replace)
+        new_name = create_name(prefix, main_part, suffix, search, replace)
 
         obj_new_names.append(new_name)
 
@@ -152,3 +128,52 @@ def create_increment(number=0, digits=2):
         number = int(number)
 
     return format(number, '0%sd' % digits)
+
+
+def create_name(prefix=None, main_name=None, suffix=None, search=None,
+                replace=None):
+    """
+    Create a name with prefix, main part, suffix, search and replace.
+
+    :param prefix: prefix of the name
+    :type prefix: str
+
+    :param main_name: main part of the name
+    :type main_name: str
+
+    :param suffix: suffix of the name
+    :type suffix: str
+
+    :param search: string to search for
+    :type search: str
+
+    :param replace: string to replace the searched part with
+    :type replace: str
+
+    :return:
+    """
+    full_name = main_name
+    if prefix and type(prefix) == str:
+        full_name = prefix + full_name
+    if suffix and type(suffix) == str:
+        full_name = full_name + suffix
+
+    digit_pattern = re.findall('(#+)', full_name)
+    if digit_pattern:
+        inc_nbr = 0
+        digit_pattern = digit_pattern[0]
+        digit_number = len(digit_pattern)
+
+        while gu.check_obj_exists(full_name.replace(digit_pattern, create_increment(inc_nbr, digit_number))):
+            inc_nbr += 1
+
+        new_name = full_name.replace(digit_pattern, create_increment(inc_nbr, digit_number))
+    else:
+        new_name = full_name
+
+    if search:
+        if not replace:
+            replace = ''
+        new_name = new_name.replace(search, replace)
+
+    return new_name

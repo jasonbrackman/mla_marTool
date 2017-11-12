@@ -48,5 +48,6 @@ def get_selection():
 def open_undo_chunk():
     mc.undoInfo(openChunk=True)
 
+
 def close_undo_chunk():
     mc.undoInfo(closeChunk=True)

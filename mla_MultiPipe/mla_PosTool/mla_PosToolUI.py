@@ -13,8 +13,10 @@ dockable = import_utils.get_dockable_widget(application)
 
 if application == 'Maya':
     import mla_MayaPipe.mla_rig_utils.mla_Maya_matrix_utils as Mmu
+    import mla_MayaPipe.mla_Maya_general_utils.mla_general_utils as Mgu
 elif application == 'Max':
     import mla_MaxPipe.mla_rig_utils.mla_Max_matrix_utils as Mmu
+    import mla_MaxPipe.mla_Max_general_utils.mla_general_utils as Mgu
 else:
     pass
 
@@ -606,16 +608,66 @@ class PosToolUI(dockable, QtWidgets.QDialog):
 
     def move_obj(self):
         data = self.get_data()
-        Mmu.move_from_ui(data)
+        selection = Mgu.get_selection()
+
+        Mmu.move(selection,
+                 data['translate'],
+                 data['rotate'],
+                 data['scale'],
+                 data['world_space'],
+                 data['mirror'],
+                 data['mirror_axis'],
+                 data['behavior'])
 
     def move_even_obj(self):
         data = self.get_data()
-        Mmu.move_even_from_ui(data)
+        selection = Mgu.get_selection()
+
+        Mmu.move_even(selection,
+                      data['translate'],
+                      data['rotate'],
+                      data['scale'],
+                      data['world_space'],
+                      data['mirror'],
+                      data['mirror_axis'],
+                      data['behavior'])
 
     def constrain(self):
         data = self.get_data()
-        Mmu.constrain_from_ui(data)
+        selection = Mgu.get_selection()
+
+        if data['constraint_type'] == 'Mirror selected':
+            targets = selection
+            source = ''
+        elif len(selection) > 1:
+            targets = selection[:-1]
+            source = selection[-1]
+        else:
+            print 'You need to select at least 2 objects to constrain',
+            return
+
+        Mmu.constrain(constraint_type=data['constraint_type'],
+                      targets=targets,
+                      source=source,
+                      aim_vector=data['aim_vector'],
+                      up_vector=data['up_vector'],
+                      maintain_offset=data['maintain_offset'],
+                      skip=(data['skip_translation'],
+                            data['skip_rotation'],
+                            data['skip_scale']))
 
     def constrain_even(self):
         data = self.get_data()
-        Mmu.constrain_even_from_ui(data)
+        selection = Mgu.get_selection()
+
+        for i, obj in enumerate(selection):
+            if i % 2 == 0:
+                Mmu.constrain(constraint_type=data['constraint_type'],
+                              targets=[selection[i]],
+                              source=selection[i + 1],
+                              aim_vector=data['aim_vector'],
+                              up_vector=data['up_vector'],
+                              maintain_offset=data['maintain_offset'],
+                              skip=(data['skip_translation'],
+                                    data['skip_rotation'],
+                                    data['skip_scale']))
