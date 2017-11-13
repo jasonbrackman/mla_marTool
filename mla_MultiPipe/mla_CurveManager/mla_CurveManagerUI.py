@@ -67,11 +67,11 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         logging.info('Building UI')
 
         # ========================================
-        self.setFixedSize(QtCore.QSize(210, 270))
+        self.setFixedSize(QtCore.QSize(210, 315))
 
         # Tabs
         tabWidget = QtWidgets.QTabWidget(self)
-        tabWidget.setMinimumSize(QtCore.QSize(210, 270))
+        tabWidget.setMinimumSize(QtCore.QSize(210, 285))
         tabWidget.setStyleSheet('QTabBar::tab {height:25px; width: 105px}')
         tabWidget.setObjectName("tabWidget")
         # Curve creation/edition tab
@@ -141,19 +141,41 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         label_3.setText("Orientation")
         orientation_layout.addWidget(label_3)
         # RadioButtons
-        self.orientation_rB_x = QtWidgets.QRadioButton(tab)
-        self.orientation_rB_x.setObjectName("orientation_rB_x")
-        self.orientation_rB_x.setText("X")
-        self.orientation_rB_x.setChecked(True)
-        orientation_layout.addWidget(self.orientation_rB_x)
-        self.orientation_rB_y = QtWidgets.QRadioButton(tab)
-        self.orientation_rB_y.setObjectName("orientation_rB_y")
-        self.orientation_rB_y.setText("Y")
-        orientation_layout.addWidget(self.orientation_rB_y)
-        self.orientation_rB_z = QtWidgets.QRadioButton(tab)
-        self.orientation_rB_z.setObjectName("orientation_rB_z")
-        self.orientation_rB_z.setText("Z")
-        orientation_layout.addWidget(self.orientation_rB_z)
+        radio_buttons_widget = QtWidgets.QWidget()
+        radio_buttons_layout = QtWidgets.QGridLayout(radio_buttons_widget)
+        radio_buttons_layout.setContentsMargins(0, 0, 0, 0)
+        orientation_layout.addWidget(radio_buttons_widget)
+        # XY
+        self.orientation_rB_xy = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_xy.setObjectName("orientation_rB_xy")
+        self.orientation_rB_xy.setText("XY")
+        radio_buttons_layout.addWidget(self.orientation_rB_xy, 1, 1, 1, 1)
+        # XZ
+        self.orientation_rB_xz = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_xz.setObjectName("orientation_rB_xz")
+        self.orientation_rB_xz.setText("XZ")
+        self.orientation_rB_xz.setChecked(True)
+        radio_buttons_layout.addWidget(self.orientation_rB_xz, 1, 2, 1, 1)
+        # YX
+        self.orientation_rB_yx = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_yx.setObjectName("orientation_rB_yx")
+        self.orientation_rB_yx.setText("YX")
+        radio_buttons_layout.addWidget(self.orientation_rB_yx, 1, 3, 1, 1)
+        # YZ
+        self.orientation_rB_yz = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_yz.setObjectName("orientation_rB_yz")
+        self.orientation_rB_yz.setText("YZ")
+        radio_buttons_layout.addWidget(self.orientation_rB_yz, 2, 1, 1, 1)
+        # ZX
+        self.orientation_rB_zx = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_zx.setObjectName("orientation_rB_zx")
+        self.orientation_rB_zx.setText("ZX")
+        radio_buttons_layout.addWidget(self.orientation_rB_zx, 2, 2, 1, 1)
+        # ZY
+        self.orientation_rB_zy = QtWidgets.QRadioButton(tab)
+        self.orientation_rB_zy.setObjectName("orientation_rB_zy")
+        self.orientation_rB_zy.setText("ZY")
+        radio_buttons_layout.addWidget(self.orientation_rB_zy, 2, 3, 1, 1)
 
         # Mirror
         mirror_widget = QtWidgets.QWidget()
@@ -180,6 +202,13 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         self.mirror_cB_z.setText("Z")
         mirror_layout.addWidget(self.mirror_cB_z)
 
+        # Create orig
+        self.create_orig_cB = QtWidgets.QCheckBox(tab)
+        self.create_orig_cB.setMinimumSize(QtCore.QSize(0, 25))
+        self.create_orig_cB.setObjectName("create_orig_cB")
+        self.create_orig_cB.setText("Create orig")
+        creation_layout.addWidget(self.create_orig_cB)
+
         # Creation PushButton
         self.creation_pB = QtWidgets.QPushButton(tab)
         self.creation_pB.setMinimumSize(QtCore.QSize(0, 25))
@@ -192,7 +221,7 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         self.remove_shape_cB = QtWidgets.QCheckBox(tab)
         self.remove_shape_cB.setMinimumSize(QtCore.QSize(0, 25))
         self.remove_shape_cB.setObjectName("remove_shape_cB")
-        self.remove_shape_cB.setText("Remove Shape")
+        self.remove_shape_cB.setText("Remove shape")
         creation_layout.addWidget(self.remove_shape_cB)
 
         # Curve edition PushButton
@@ -270,14 +299,17 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         crv_to_delete = self.curve_to_delete_cbB.currentText()
         crv_name = self.name_lE.text()
         remove_shape = self.remove_shape_cB.isChecked()
+        create_orig = self.create_orig_cB.isChecked()
         crv_type = self.curve_cbB.currentText()
 
-        if self.orientation_rB_x.isChecked():
-            axis = 'x'
-        elif self.orientation_rB_y.isChecked():
-            axis = 'y'
-        else:
-            axis = 'z'
+        for rB in (self.orientation_rB_xy,
+                   self.orientation_rB_xz,
+                   self.orientation_rB_yx,
+                   self.orientation_rB_yz,
+                   self.orientation_rB_zx,
+                   self.orientation_rB_zy):
+            if rB.isChecked():
+                axis = rB.text()
 
         mirror = list()
 
@@ -288,6 +320,7 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
                 'crv_to_delete': crv_to_delete,
                 'name': crv_name,
                 'remove_shape': remove_shape,
+                'create_orig': create_orig,
                 'crv_type': crv_type,
                 'axis': axis,
                 'mirror': mirror}
@@ -346,6 +379,7 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
         Create curve(s) using ui data
         :return:
         """
+        Mgu.open_undo_chunk()
         # Get data from ui
         data = self.get_ui_data()
         selection = Mgu.get_selection()
@@ -355,14 +389,18 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
 
         crv_dict = self.crv_data[data['crv_type']]
 
-        Mcu.create_edit_crv(selection, crv_dict, name, create_orig=True,
+        Mcu.create_edit_crv(selection, crv_dict, name,
+                            create_orig=data['create_orig'],
                             axis=data['axis'], mirror=data['mirror'])
+
+        Mgu.close_undo_chunk()
 
     def edit_crv_from_ui(self):
         """
         Edit curve(s) using ui data
         :return:
         """
+        Mgu.open_undo_chunk()
         # Get data from ui
         data = self.get_ui_data()
         selection = Mgu.get_selection()
@@ -374,6 +412,8 @@ class CurveManagerUI(dockable, QtWidgets.QDialog):
 
         Mcu.create_edit_crv(selection, crv_dict, 'ctrl', edit=True, add=add,
                             axis=data['axis'], mirror=data['mirror'])
+
+        Mgu.close_undo_chunk()
 
     def get_crv_data(self):
         """

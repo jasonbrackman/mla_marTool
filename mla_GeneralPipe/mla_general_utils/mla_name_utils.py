@@ -169,7 +169,10 @@ def create_name(prefix=None, main_name=None, suffix=None, search=None,
 
         new_name = full_name.replace(digit_pattern, create_increment(inc_nbr, digit_number))
     else:
-        new_name = full_name
+        if gu.check_obj_exists(full_name):
+            new_name = create_name(main_name='%s#' % full_name)
+        else:
+            new_name = full_name
 
     if search:
         if not replace:

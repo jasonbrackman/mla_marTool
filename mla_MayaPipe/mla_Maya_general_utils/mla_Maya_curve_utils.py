@@ -1,8 +1,10 @@
 import maya.cmds as mc
 
+import mla_GeneralPipe.mla_general_utils.mla_name_utils as nu
 import mla_MayaPipe.mla_rig_utils.orig as orig
 import mla_MayaPipe.mla_rig_utils.mla_Maya_matrix_utils as Mmu
 
+reload(nu)
 reload(orig)
 reload(Mmu)
 
@@ -105,6 +107,8 @@ def create_crv(crv_dict, name='ctrl'):
     points = crv_dict['points']
     knots = crv_dict['knots']
 
+    name = nu.create_name(main_name=name)
+
     mc.curve(n=name, d=degree, p=points, k=knots)
 
     return name
@@ -188,6 +192,8 @@ def get_crv_info(crv_name):
     for i in range(0, cv_number):
         point = mc.getAttr(crv_info + '.controlPoints[' + str(i) + ']')
         points.append(point[0])
+
+    mc.delete(crv_info)
 
     crv_dict = {'degree': crv_degree, 'points': points, 'knots': knots}
 

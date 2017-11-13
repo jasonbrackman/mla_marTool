@@ -519,13 +519,14 @@ def mirror_constraint(constraints=()):
                       ct_name=ct_name)
 
 
-def orient_mirror_shape(shape, axis='x', mirror=(False, False, False)):
+def orient_mirror_shape(shape, axis='XZ', mirror=(False, False, False)):
     """
     Rotate and orient a mesh, curve, nurbs, etc.
     :param shape: Name of the shape to rotate and mirror (mesh, curve, etc)
     :type shape: str
 
-    :param axis: Axis to orient the shape to. Default x (no rotation)
+    :param axis: Axis to orient the shape to. Default shape is considered XZ
+    (flat on the grid) therefore XZ axis doesn't rotate the shape.
     :type axis: str
 
     :param mirror: Axis to mirror the shape along. Default (0, 0, 0) (no mirror)
@@ -535,14 +536,22 @@ def orient_mirror_shape(shape, axis='x', mirror=(False, False, False)):
     """
     parent = mc.listRelatives(shape, p=True)
 
+    print axis
+
     # Transform shape
     shape_orig = orig.orig([shape])
-    if axis == 'x':
-        pass
-    elif axis == 'y':
+    if 'X' in axis and 'Y' in axis:
+        print 'X an Y shape'
+        mc.setAttr('%s.rx' % shape, 90)
+    if axis[0] == 'Y':
+        print 'Y shape'
         mc.setAttr('%s.rz' % shape, 90)
-    else:
-        mc.setAttr('%s.ry' % shape, 90)
+    if axis[0] == 'Z':
+        print 'Z shape'
+        mc.setAttr('%s.ry' % shape, -90)
+    if axis == 'ZY':
+        print 'ZY shape'
+        mc.setAttr('%s.rz' % shape, -90)
     mc.makeIdentity(shape, r=True, a=True)
 
     mirr_value = list()
