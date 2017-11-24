@@ -23,10 +23,10 @@ application = import_utils.get_application()
 dockable = import_utils.get_dockable_widget(application)
 
 
-class AssetManagerUI(dockable, QtWidgets.QDialog):
+class ScenesManagerUI(dockable, QtWidgets.QDialog):
 
     def __init__(self, parent=None):
-        super(AssetManagerUI, self).__init__(parent=parent)
+        super(ScenesManagerUI, self).__init__(parent=parent)
 
         self.setWindowTitle('Scenes Manager UI')
         self.setMinimumSize(825, 550)

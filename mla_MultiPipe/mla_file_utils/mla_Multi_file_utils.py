@@ -3,7 +3,7 @@ import mla_Multi_import_utils as import_utils
 application, mc, api = import_utils.import_from_application()
 
 if application == 'Maya':
-    import mla_MayaPipe.mla_rendering_utils.mla_shading_utils as su
+    import mla_MayaPipe.mla_Maya_rendering_utils.mla_shading_utils as su
 
 
 def open_file(filepath):

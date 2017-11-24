@@ -33,8 +33,8 @@ else:
     types = []
 
 # Define the path of the hierarchy_template file
-location = '\\'.join(__file__.split('\\')[0:-1])
-hierarchy_template_path = os.path.join(location, 'hierarchy_templates.json')
+LOCATION = '\\'.join(__file__.split('\\')[0:-1])
+HIERARCHY_TEMPLATE_PATH = os.path.join(LOCATION, 'hierarchy_templates.json')
 
 
 class HierarchyTemplate(dict):
@@ -42,15 +42,25 @@ class HierarchyTemplate(dict):
     def __init__(self):
         super(HierarchyTemplate, self).__init__()
 
+        self.template_path = HIERARCHY_TEMPLATE_PATH
+
+        self.hierarchy_templates = self.load_template()
+
+    def load_template(self):
         # Get template hierarchies if the file already exists
-        if os.path.isfile(hierarchy_template_path):
+        if os.path.isfile(self.template_path):
             logging.info('template hierarchy file exists')
-            self.hierarchy_templates = fu.FileSystem.load_from_json(
-                hierarchy_template_path)
+            hierarchy_templates = fu.FileSystem.load_from_json(
+                self.template_path)
         # Create an empty OrderedDict if the file doesn't exist
         else:
             logging.info('template hierarchy file does not exist')
-            self.hierarchy_templates = OrderedDict()
+            hierarchy_templates = OrderedDict()
+
+            return hierarchy_templates
+
+    def save_templates(self):
+        fu.FileSystem.save_to_json(self.hierarchy_templates, self.template_path)
 
     def set_hierarchy_template(self,
                                hierarchy_template_name='',
@@ -137,8 +147,8 @@ class HierarchyTemplate(dict):
             if len(inc_grp) > 1:
                 raise ValueError('You cannot specify two increments.')
             else:
-                hierarchy[
-                    'increment_template_file_name'] = increment_template_file_name
+                hierarchy['increment_template_file_name'] = \
+                    increment_template_file_name
         if publish_depth_save:
             hierarchy['publish_depth_save'] = publish_depth_save
         if publish_template_file_name:
@@ -160,8 +170,7 @@ class HierarchyTemplate(dict):
         self.hierarchy_templates[hierarchy_template_name] = hierarchy
         logging.debug(self.hierarchy_templates)
 
-        # Save
-        fu.FileSystem.save_to_json(self.hierarchy_templates, hierarchy_template_path)
+        self.save_templates()
 
     def customize_hierarchy_template(self, depth=None, template_type=None,
                                      folder_name=None, master_folder=None,
@@ -196,8 +205,8 @@ class HierarchyTemplate(dict):
         current_template = self.hierarchy_templates[hierarchy_template]
 
         if not file_type:
-            # Set up current hierarchy depth level depending on specified depth type
-            # If type is fixed, add the folder name
+            # Set up current hierarchy depth level depending on specified depth
+            # type, if type is fixed, add the folder name
             if template_type == 'fixed':
                 current_template['depth%s' % depth].append(folder_name)
 
@@ -207,8 +216,8 @@ class HierarchyTemplate(dict):
 
             # If type is fixed by folder
             elif template_type == 'fixed by folder':
-                # If there is already a dict stored for this depth level, add the
-                # folder name to the list
+                # If there is already a dict stored for this depth level, add
+                # the folder name to the list
                 if type(current_template['depth%s' % depth]) == dict:
                     depth_template = current_template['depth%s' % depth]
                     if len(depth_template[master_folder]) > 0:
@@ -221,8 +230,8 @@ class HierarchyTemplate(dict):
                 # Replace old level value by the newly edited dict
                 current_template['depth%s' % depth] = depth_template
 
-            # If the type is dynamic by folder, set the depth for the master folder
-            # as a list of one str
+            # If the type is dynamic by folder, set the depth for the master
+            # folder as a list of one str
             elif template_type == 'dynamic by folder':
                 if type(current_template['depth%s' % depth]) == dict:
                     depth_template = current_template['depth%s' % depth]
@@ -237,8 +246,8 @@ class HierarchyTemplate(dict):
             else:
                 pass
         else:
-            # Set up current hierarchy file types depending on specified file types
-            # If type is fixed, add the folder name
+            # Set up current hierarchy file types depending on specified file
+            # types if type is fixed, add the folder name
             if template_type == 'fixed':
                 current_template['hierarchy_file_types'].append(folder_name)
 
@@ -248,8 +257,8 @@ class HierarchyTemplate(dict):
 
             # If type is fixed by folder
             elif template_type == 'fixed by folder':
-                # If there is already a dict stored for this depth level, add the
-                # file type to the list
+                # If there is already a dict stored for this depth level, add
+                # the file type to the list
                 if type(current_template['hierarchy_file_types']) == dict:
                     types_template = current_template['hierarchy_file_types']
                     if len(types_template[master_folder]) > 0:
@@ -262,8 +271,8 @@ class HierarchyTemplate(dict):
                 # Replace old level value by the newly edited dict
                 current_template['hierarchy_file_types'] = types_template
 
-            # If the type is dynamic by folder, set the depth for the master folder
-            # as a list of one str
+            # If the type is dynamic by folder, set the depth for the master
+            # folder as a list of one str
             elif template_type == 'dynamic by folder':
                 logging.warning('hierarchy_file_types cannot be dynamic')
 
@@ -271,8 +280,7 @@ class HierarchyTemplate(dict):
             else:
                 pass
 
-        # Save
-        fu.FileSystem.save_to_json(self.hierarchy_templates, hierarchy_template_path)
+        self.save_templates()
 
     def build_hierarchy_path(self, hierarchy_template_name='', folder_list=[],
                              add_filename=False):
@@ -430,10 +438,10 @@ class HierarchyTemplate(dict):
 
         # Get depth levels
         depth_levels = list()
-        splitted_path = [folder_path, '']
-        while splitted_path[0] != hierarchy_path:
-            splitted_path = os.path.split(splitted_path[0])
-            depth_levels.insert(0, splitted_path[1])
+        splited_path = [folder_path, '']
+        while splited_path[0] != hierarchy_path:
+            splited_path = os.path.split(splited_path[0])
+            depth_levels.insert(0, splited_path[1])
 
         # Get the different parts of the name
         str_grps = re.findall('(\{[a-zA-Z0-9\[\]]*\})+', file_template_name)

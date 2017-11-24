@@ -104,10 +104,10 @@ def get_rig_modules(application):
 
     if application == 'Maya':
         absolute_path = 'E:\development\Python\mla_MayaPipe\mla_rig_modules'
-        relative_path = 'mla_MayaPipe.mla_rig_modules'
+        relative_path = 'mla_MayaPipe.mla_Maya_rig_modules'
     elif application == 'Max':
         absolute_path = 'E:\development\Python\mla_MaxPipe\mla_rig_modules'
-        relative_path = 'mla_MaxPipe.mla_rig_modules'
+        relative_path = 'mla_MaxPipe.mla_Maya_rig_modules'
     else:
         print 'No rig modules for this software'
         absolute_path = None

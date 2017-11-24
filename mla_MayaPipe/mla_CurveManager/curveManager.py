@@ -7,7 +7,7 @@ from PySide.QtGui import *
 
 import curveManager_ui
 import mla_GeneralPipe.mla_file_utils.mla_file_utils as fu
-import mla_MayaPipe.mla_rig_utils.orig as orig
+import mla_MayaPipe.mla_Maya_rig_utils.orig as orig
 
 reload(curveManager_ui)
 

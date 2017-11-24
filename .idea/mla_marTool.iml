@@ -17,8 +17,6 @@
       <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_PosTool" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_RigBuilder" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_ScenesManager" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_archive" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BakeDynToFk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_blendshape_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BlendShapeManager_12" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BlendShapeManager_13" isTestSource="false" />
@@ -27,13 +25,15 @@
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_file_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_general_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_PosTool" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rendering_utils" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rig_modules" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_rig_utils" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_skeleton_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_rendering_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_rig_modules" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_rig_utils" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_Maya_skeleton_utils" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_SymMesh" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_Renamer" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/mla_MultiPipe/mla_CurveManager" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_BakeDynToFk" />
+      <excludeFolder url="file://$MODULE_DIR$/mla_MayaPipe/mla_archive" />
     </content>
     <orderEntry type="jdk" jdkName="Python 2.7.11 (C:\Program Files\Autodesk\Maya2017\bin\mayapy.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

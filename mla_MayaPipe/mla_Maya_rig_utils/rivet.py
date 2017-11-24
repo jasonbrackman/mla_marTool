@@ -1,5 +1,5 @@
 import maya.cmds as mc
-from Python.mla_general_utils.ml_utilities import create_condition
+from ml_utilities import create_condition
 
 
 def rivet_to_edge(edges=[], aim=True):
@@ -34,7 +34,7 @@ def rivet_to_edge(edges=[], aim=True):
         mc.connectAttr('%s.worldMesh[0]' % obj, '%s.inputMesh' % cfme)
         mc.setAttr('%s.edgeIndex[0]' % cfme, int(edge_idx))
 
-        # Create point
+        # Create poci node
         poci = mc.createNode('pointOnCurveInfo',
                              n='poci_rivet%s' % rivet_number)
         mc.connectAttr('%s.outputCurve' % cfme, '%s.inputCurve' % poci)
@@ -174,6 +174,7 @@ def rivet_to_curve(curve_point='', aim=True):
         mc.connectAttr('%s.constraintRotateY' % aim, '%s.rotateY' % rivet)
         mc.connectAttr('%s.constraintRotateZ' % aim, '%s.rotateZ' % rivet)
     return rivet
+
 
 def rivet_to_surface(surface_point='', aim=True):
     """

@@ -1,8 +1,8 @@
 import maya.cmds as mc
 
 import mla_GeneralPipe.mla_general_utils.mla_name_utils as nu
-import mla_MayaPipe.mla_rig_utils.orig as orig
-import mla_MayaPipe.mla_rig_utils.mla_Maya_matrix_utils as Mmu
+import mla_MayaPipe.mla_Maya_rig_utils.orig as orig
+import mla_MayaPipe.mla_Maya_rig_utils.mla_Maya_matrix_utils as Mmu
 
 reload(nu)
 reload(orig)

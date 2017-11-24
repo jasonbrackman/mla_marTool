@@ -9,7 +9,7 @@
 # -----------------------------------
 import maya.cmds as mc
 
-from Python.mla_rig_utils import orig as orig
+import mla_rig_utils.orig as orig
 
 
 def manual_bend_chain(controller, curves):

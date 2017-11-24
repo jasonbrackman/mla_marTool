@@ -21,7 +21,7 @@ APPLICATION = import_utils.get_application()
 dockable = import_utils.get_dockable_widget(APPLICATION)
 
 if APPLICATION == 'Maya':
-    import mla_MayaPipe.mla_rig_utils.mla_Maya_matrix_utils as Mmu
+    import mla_MayaPipe.mla_Maya_rig_utils.mla_Maya_matrix_utils as Mmu
     import mla_MayaPipe.mla_Maya_general_utils.mla_general_utils as Mgu
     import mla_MayaPipe.mla_Maya_general_utils.mla_Maya_curve_utils as Mcu
 elif APPLICATION == 'Max':
