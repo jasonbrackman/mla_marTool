@@ -22,7 +22,7 @@ application = Multi_import_ut.get_application()
 class FileLibrary(dict):
 
     def __init__(self, project='', scenes_sound='', asset_anim='',
-                 asset_type='', asset='', task='', file_types=['.ma', '.mb']):
+                 asset_type='', asset='', task='', file_types=('.ma', '.mb')):
         """
 
         :param project: project to look in
@@ -138,27 +138,21 @@ class FileLibrary(dict):
         """
 
         path = Multi_path_ut.get_current_scene_path()
+
         logging.info('path of open file is : %s' % path)
-        name = path.split('/')[-1].split('.')[0]
-        ext = path.split('.')[-1]
+        _, basename = os.path.split(path)
+        name, ext = os.path.splitext(basename)
 
         # Create path
-        if wip:
+        result = 'wip' if wip else None
+        result = 'publish' if publish else result
+
+        if result:
             path = pu.build_path(self.project, self.scenes_sound,
                                  self.asset_anim, self.asset_type, self.asset,
-                                 self.task, '%s.%s' % (name, ext), 'wip')
-            name = path.split('/')[-1].split('.')[0]
-            Multi_file_ut.save_file(path)
+                                 self.task, '%s.%s' % (name, ext), result)
 
-        if publish:
-            path = pu.build_path(self.project, self.scenes_sound,
-                                 self.asset_anim, self.asset_type, self.asset,
-                                 self.task, '%s.%s' % (name, ext), 'publish')
-            name = path.split('/')[-1].split('.')[0]
-            Multi_file_ut.save_file(path)
-
-        if not wip and not publish:
-            Multi_file_ut.save_file(path)
+        Multi_file_ut.save_file(path)
 
         print path
         # logging.info('path is : ', path)
@@ -203,66 +197,57 @@ class FileLibrary(dict):
         :param name:
         :return:
         """
+
+        applications = {'Maya': ['.ma', '.mb', '.fbx', '.obj'],
+                        'Max': ['.max', '.fbx', '.obj']}
+
+        # application is a Global
+        extensions = applications.get(application, [])
+
         path = self[name]['path']
-
-        if application == 'Maya':
-            openable = ['.ma', '.mb', '.fbx', '.obj']
-        elif application == 'Max':
-            openable = ['.max', '.fbx', '.obj']
-        else:
-            openable = []
-
-        extension = '.%s' % path.split('.')[-1]
-
-        if extension in openable:
+        if path.endswith(extensions):
             Multi_file_ut.open_file(path)
         else:
             logging.warning('%s is not openable' % path)
             return
 
     def import_file(self, name):
-        path = self[name]['path']
 
-        if application == 'Maya':
-            importable = ['.ma', '.mb', '.fbx', '.obj']
-        elif application == 'Max':
-            importable = ['.max', '.fbx', '.obj']
-        else:
-            importable = []
+        applications = {'Maya': ['.ma', '.mb', '.fbx', '.obj'],
+                        'Max': ['.max', '.fbx', '.obj']}
+
+        # application is a Global
+        import_types = applications.get(application, [])
 
         texture_types = ['.jpg', '.jpeg', '.jpe', '.psd', '.psb', '.tif',
                          '.tiff', '.png', '.pns', '.bmp', '.rle', '.dib',
                          '.raw', '.pxr', '.pbm', '.pgm', '.ppm', '.pnm', '.pfm',
                          '.pam', '.tga', '.vda', '.icb', '.vst']
+
         sound_types = ['.mpeg', '.mp4', '.mp3', '.wma']
 
-        extension = '.%s' % path.split('.')[-1]
-
-        if extension in importable:
+        path = self[name]['path']
+        if path.endswith(import_types):
             Multi_file_ut.import_scene_file(path)
             return
-        elif extension in texture_types:
+        elif path.endswith(texture_types):
             file_node = Multi_file_ut.import_image_file(path)
             return file_node
-        elif extension in sound_types:
+        elif path.endswith(sound_types):
             Multi_file_ut.import_sound_file(path, name)
         else:
             logging.warning('%s is not importable' % path)
             return
 
     def reference_file(self, name):
+        applications = {'Maya': ['.ma', '.mb'],
+                        'Max': ['.max']}
+
+        # application is a Global
+        reference_types = applications.get(application, [])
+
         path = self[name]['path']
-
-        if application == 'Maya':
-            referenceable = ['.ma', '.mb']
-        elif application == 'Max':
-            referenceable = ['.max']
-        else:
-            referenceable = []
-
-        extension = '.%s' % path.split('.')[-1]
-
-        if extension in referenceable:
+        if path.endswith(reference_types):
             Multi_file_ut.reference_file(path)
         else:
             logging.warning('%s is not referenceable' % path)
